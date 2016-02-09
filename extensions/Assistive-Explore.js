@@ -339,23 +339,24 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
     TouchStart: function(event){
       event.preventDefault();
 
-      if (Explorer.walker && Explorer.walker.isActive()) {
-        Explorer.DeactivateWalker();
-      };
-      var math = event.target;
-      Explorer.ActivateWalker(math);
-      console.log(math);
+     // if (Explorer.walker && Explorer.walker.isActive()) {
+     //   Explorer.DeactivateWalker();
+     // };
+     // var math = event.target;
+      //Explorer.ActivateWalker(math);
+      //console.log(math);
       },
 
 
     TouchEnd: function(event){
-      //event.preventDefault();
+      event.preventDefault();
     },
 
     //
     // Adds mouse events to maction items in an enriched jax.
     //
     AddMouseEvents: function(node) {
+      console.log("mouse event triggered");
       sre.HighlighterFactory.addEvents(
         node,
         {'mouseover': Explorer.MouseOver,
