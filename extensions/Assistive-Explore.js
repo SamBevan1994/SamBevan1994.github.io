@@ -182,6 +182,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
     },
 
     HammerTap: function(event){
+      console.log("Hammer Tap Called");
       if (Explorer.walker && Explorer.walker.isActive()) {
         //Explorer.DeactivateWalker();
       };
