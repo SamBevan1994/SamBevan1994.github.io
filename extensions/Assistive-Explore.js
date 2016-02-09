@@ -167,6 +167,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
     //
     AddHammerGestures: function(node) {
       console.log('Adding Hammer Horror');
+      console.log(node);
       var mc = new Hammer(node);
       console.log('Still alive?');
       console.log(mc);
@@ -181,20 +182,27 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
     },
 
     HammerTap: function(event){
+      console.log('Tapping');
       if (Explorer.walker && Explorer.walker.isActive()) {
         //Explorer.DeactivateWalker();
       };
       var math = event.target;
-      Explorer.ActivateWalker(math);
+      var id = MathJax.Hub.getJaxFor(math).inputID + '-Frame';
+      var newMath = document.getElementById(id);
+      Explorer.ActivateWalker(newMath);
       console.log(math);
       
     },
 
     HammerSwipeLeft: function(event){
       if (Explorer.walker && Explorer.walker.isActive()) {
-        var move = Explorer.walker.left();
+        console.log('left?');
+        var move = Explorer.walker.move(sre.EventUtil.KeyCode.DOWN);
+        console.log(move);
         if (move === null) return;
         if (move) {
+          console.log('updating');
+          console.log(Explorer.walker.speech());
           Explorer.liveRegion.Update(Explorer.walker.speech());
           Explorer.Highlight();
         } else {
@@ -210,7 +218,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
 
     HammerSwipeRight: function(event){
       if (Explorer.walker && Explorer.walker.isActive()) {
-        var move = Explorer.walker.right();
+        var move = Explorer.walker.move(sre.EventUtil.KeyCode.UP);
         if (move === null) return;
         if (move) {
           Explorer.liveRegion.Update(Explorer.walker.speech());
@@ -437,6 +445,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
     //
     Highlight: function() {
       Explorer.Unhighlight();
+      console.log(Explorer.walker.getFocus().getNodes());
       Explorer.highlighter.highlight(Explorer.walker.getFocus().getNodes());
     },
     //
