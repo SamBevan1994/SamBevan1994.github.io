@@ -173,7 +173,8 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       mc.on("panleft panright tap press", function(ev) {
         console.log(ev.type +" gesture detected.");
       });
-      mc.on("tap", this.HammerTap);
+      var tap = new Hammer(node);
+      tap.on("tap", this.HammerTap);
       mc.on("panleft", this.HammerSwipeLeft);
       mc.on("panright", this.HammerSwipeRight);
       mc.on("panup", this.HammerSwipeUp);
@@ -310,8 +311,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
     AddTouchEvents: function(node) {
       sre.HighlighterFactory.addEvents(
         node,
-        {'jgesture.tapone': Explorer.TapOne,
-          'touchstart': Explorer.TouchStart,
+        {'touchstart': Explorer.TouchStart,
          'touchend': Explorer.TouchEnd},
         {renderer: MathJax.Hub.outputJax['jax/mml'][0].id,
          browser: MathJax.Hub.Browser.name}
