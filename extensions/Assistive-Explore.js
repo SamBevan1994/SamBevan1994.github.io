@@ -36,7 +36,8 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
     },
 
     addDefaults: function() {
-      for (var key in Object.keys(Assistive.default)) {
+      var keys = Object.keys(Assistive.default);
+      for (var i = 0, key; key = keys[i]; i++) {
         if (typeof(SETTINGS[Assistive.prefix + key]) === 'undefined') {
           Assistive.addMenuOption(key, Assistive.default[key]);
         }
@@ -122,7 +123,13 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
                left: 0, right: 0, 'margin': '0 auto',
                'background-color': 'white', 'box-shadow': '0px 10px 20px #888',
                border: '2px solid #CCCCCC'
-             }},
+             },
+             '.MJX_DescriptionElement':
+             {
+               position: 'absolute', top:'0', height: '1px', width: '1px',
+               padding: '1px', overflow: 'hidden'
+             }
+            },
     //
     // Creates a live region with a particular type.
     //
@@ -216,6 +223,22 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
   
         if (math) {
           math.onkeydown = Explorer.Keydown;
+          //
+          var speechGenerator = new sre.DirectSpeechGenerator();
+          var span = math.querySelector('[data-semantic-speech]');
+          if (span) {
+            var speech = speechGenerator.getSpeech(span);
+            if (speech) {
+              var descr = id + '-Descr';
+              math.setAttribute('aria-labelledby', descr);
+              var newSpan = MathJax.HTML.addElement(
+                document.body, 'div',
+                {id: descr, className: 'MJX_DescriptionElement'});
+              newSpan.textContent = speech;
+            }
+          }
+          //
+          Explorer.Flame(math);
           math.addEventListener(
             Explorer.focusEvent,
             function(event) {
@@ -513,7 +536,6 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
     // Activates Flaming
     //
     Flame: function(node) {
-      Explorer.UnFlame(node);
       if (Assistive.getOption('highlight') === 'flame') {
         Explorer.GetHighlighter(.05);
         Explorer.highlighter.highlightAll(node);
@@ -521,15 +543,16 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
         return;
       }
     },
-    UnFlame: function(node) {
+    UnFlame: function() {
       if (Explorer.flamer) {
         Explorer.highlighter.unhighlightAll();
         Explorer.flamer = null;
       }
     },
     FlameEnriched: function() {
+      Explorer.UnFlame();
       for (var i = 0, all = MathJax.Hub.getAllJax(), jax; jax = all[i]; i++) {
-        Explorer.Flame(document.getElementById(jax.inputID).previousSibling);
+        Explorer.Flame(jax.SourceElement().previousSibling);
       }
     },
     // 
