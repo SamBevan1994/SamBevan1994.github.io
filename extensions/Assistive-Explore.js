@@ -255,7 +255,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       
       var tap = new Hammer(node);
       tap.on("tap", this.HammerTap);
-      tap.on("hold", this.HammerHold);
+      tap.on("press", this.HammerHold);
       mc.on("touchstart", function(event){
         console.log("touch starting so setting flag");
         console.log(event);
