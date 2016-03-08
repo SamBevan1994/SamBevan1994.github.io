@@ -298,25 +298,25 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       mc.on("panleft", function(event) {
         if (Explorer.walker && Explorer.walker.isActive()) {
           event.srcEvent.stopPropagation();
-          event.preventDefault();]
+          event.preventDefault();
         };
       });
       mc.on("panright", function(event) {
         if (Explorer.walker && Explorer.walker.isActive()) {
           event.srcEvent.stopPropagation();
-          event.preventDefault();]
+          event.preventDefault();
         };
       });
       mc.on("panup", function(event) {
         if (Explorer.walker && Explorer.walker.isActive()) {
           event.srcEvent.stopPropagation();
-          event.preventDefault();]
+          event.preventDefault();
         };
       });
       mc.on("pandown", function(event) {
         if (Explorer.walker && Explorer.walker.isActive()) {
           event.srcEvent.stopPropagation();
-          event.preventDefault();]
+          event.preventDefault();
         };
       });
 
