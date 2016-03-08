@@ -265,47 +265,59 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
         console.log("preventing event default (touching)");
       });
       mc.on("panstart", function(event){
-        console.log("panning starting so setting flag");
-        console.log(event);
-        event.srcEvent.stopPropagation();
-        event.preventDefault();
-        console.log("preventing event default (scrolling)");
+        if (Explorer.walker && Explorer.walker.isActive()) {
+          console.log("panning starting so setting flag");
+          console.log(event);
+          event.srcEvent.stopPropagation();
+          event.preventDefault();
+          console.log("preventing event default (scrolling)");
+        };
       });
       mc.on("panend", function (event){
-        event.srcEvent.stopPropagation();
-        event.preventDefault();
-        if(event.direction == Hammer.DIRECTION_RIGHT){
-          console.log("EVENT THAT COUNTS right?");
-          Explorer.HammerSwipeRight(event);
-        };
-        if(event.direction == Hammer.DIRECTION_LEFT){
-          console.log("EVENT THAT COUNTS left?");
-          Explorer.HammerSwipeLeft(event);
-        };
-        if(event.direction == Hammer.DIRECTION_UP){
-          console.log("EVENT THAT COUNTS up?");
-          Explorer.HammerSwipeUp(event);
-        };
-        if(event.direction == Hammer.DIRECTION_DOWN){
-          console.log("EVENT THAT COUNTS down?");
-          Explorer.HammerSwipeDown(event);
+        if (Explorer.walker && Explorer.walker.isActive()) {
+          event.srcEvent.stopPropagation();
+          event.preventDefault();
+          if(event.direction == Hammer.DIRECTION_RIGHT){
+            console.log("EVENT THAT COUNTS right?");
+            Explorer.HammerSwipeRight(event);
+          };
+          if(event.direction == Hammer.DIRECTION_LEFT){
+            console.log("EVENT THAT COUNTS left?");
+            Explorer.HammerSwipeLeft(event);
+          };
+          if(event.direction == Hammer.DIRECTION_UP){
+            console.log("EVENT THAT COUNTS up?");
+            Explorer.HammerSwipeUp(event);
+          };
+          if(event.direction == Hammer.DIRECTION_DOWN){
+            console.log("EVENT THAT COUNTS down?");
+            Explorer.HammerSwipeDown(event);
+          };
         };
       });
       mc.on("panleft", function(event) {
-        event.srcEvent.stopPropagation();
-        event.preventDefault();
+        if (Explorer.walker && Explorer.walker.isActive()) {
+          event.srcEvent.stopPropagation();
+          event.preventDefault();]
+        };
       });
       mc.on("panright", function(event) {
-        event.srcEvent.stopPropagation();
-        event.preventDefault();
+        if (Explorer.walker && Explorer.walker.isActive()) {
+          event.srcEvent.stopPropagation();
+          event.preventDefault();]
+        };
       });
       mc.on("panup", function(event) {
-        event.srcEvent.stopPropagation();
-        event.preventDefault();
+        if (Explorer.walker && Explorer.walker.isActive()) {
+          event.srcEvent.stopPropagation();
+          event.preventDefault();]
+        };
       });
       mc.on("pandown", function(event) {
-        event.srcEvent.stopPropagation();
-        event.preventDefault();
+        if (Explorer.walker && Explorer.walker.isActive()) {
+          event.srcEvent.stopPropagation();
+          event.preventDefault();]
+        };
       });
 
     },
