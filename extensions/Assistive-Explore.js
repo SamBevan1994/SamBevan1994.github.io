@@ -4,6 +4,7 @@
 MathJax.Hub.Register.StartupHook('Sre Ready', function() {
   var FALSE, KEY;
   var SETTINGS = MathJax.Hub.config.menuSettings;
+  var swipesadded = false;
 
   MathJax.Hub.Register.StartupHook('MathEvents Ready', function() {
     FALSE = MathJax.Extension.MathEvents.Event.False;
@@ -246,34 +247,65 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
     //
     // Event execution on keydown. Subsumes the same method of MathEvents.
     //
+
     AddHammerGestures: function(node) {
       console.log('Adding Hammer Horror');
       var body = document.body;
-      var mc = new Hammer.Manager(body);
-      mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_ALL}));
-      console.log('Still alive?');
-      console.log('HammerListener: ' + mc);
-      
+      console.log("swipes added?: " + swipesadded);
+      if (swipesadded == false) {
+        this.AddHammerSwipes(body);
+      };
       var tap = new Hammer(node);
       tap.on("tap", this.HammerTap);
       tap.on("press", this.HammerHold);
-      mc.on("touchstart", function(event){
-        console.log("touch starting so setting flag");
-        console.log(event);
-        event.srcEvent.stopPropagation();
-        event.preventDefault();
-        console.log("preventing event default (touching)");
+      tap.on("touchstart", function(event){
+          if (Explorer.walker && Explorer.walker.isActive()) {
+            event.srcEvent.stopPropagation();
+            event.preventDefault();
+            console.log("preventing event default (touchstarting)");
+          };
       });
+      tap.on("panleft", function(event) {
+          if (Explorer.walker && Explorer.walker.isActive()) {
+            event.srcEvent.stopPropagation();
+            event.preventDefault();
+          };
+      });
+      tap.on("panright", function(event) {
+          if (Explorer.walker && Explorer.walker.isActive()) {
+            event.srcEvent.stopPropagation();
+            event.preventDefault();
+          };
+      });
+      tap.on("panup", function(event) {
+          if (Explorer.walker && Explorer.walker.isActive()) {
+            event.srcEvent.stopPropagation();
+            event.preventDefault();
+          };
+      });
+      tap.on("pandown", function(event) {
+          if (Explorer.walker && Explorer.walker.isActive()) {
+            event.srcEvent.stopPropagation();
+            event.preventDefault();
+          };
+      });
+    },
+    AddHammerSwipes: function(node){
+      console.log("adding swipes");
+      var mc = new Hammer.Manager(node);
+      mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_ALL}));
       mc.on("panstart", function(event){
-        if (Explorer.walker && Explorer.walker.isActive()) {
-          console.log("panning starting so setting flag");
-          console.log(event);
+        
+        if ( Explorer.walker && Explorer.walker.isActive()) {
+          console.log(mc +" starting panning so setting flag")
+  
           event.srcEvent.stopPropagation();
           event.preventDefault();
           console.log("preventing event default (scrolling)");
         };
       });
       mc.on("panend", function (event){
+        
         if (Explorer.walker && Explorer.walker.isActive()) {
           event.srcEvent.stopPropagation();
           event.preventDefault();
@@ -293,35 +325,12 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
             console.log("EVENT THAT COUNTS down?");
             Explorer.HammerSwipeDown(event);
           };
+          pannable = true;
         };
       });
-      mc.on("panleft", function(event) {
-        if (Explorer.walker && Explorer.walker.isActive()) {
-          event.srcEvent.stopPropagation();
-          event.preventDefault();
-        };
-      });
-      mc.on("panright", function(event) {
-        if (Explorer.walker && Explorer.walker.isActive()) {
-          event.srcEvent.stopPropagation();
-          event.preventDefault();
-        };
-      });
-      mc.on("panup", function(event) {
-        if (Explorer.walker && Explorer.walker.isActive()) {
-          event.srcEvent.stopPropagation();
-          event.preventDefault();
-        };
-      });
-      mc.on("pandown", function(event) {
-        if (Explorer.walker && Explorer.walker.isActive()) {
-          event.srcEvent.stopPropagation();
-          event.preventDefault();
-        };
-      });
-
+      swipesadded = true;
+      console.log("added swipes");
     },
-
     HammerTap: function(event){
       console.log(event.type +" gesture detected.");
       event.preventDefault();
