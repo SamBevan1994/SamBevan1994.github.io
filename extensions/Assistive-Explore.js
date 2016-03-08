@@ -255,6 +255,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       
       var tap = new Hammer(node);
       tap.on("tap", this.HammerTap);
+      tap.on("hold", this.HammerHold);
       mc.on("touchstart", function(event){
         console.log("touch starting so setting flag");
         console.log(event);
@@ -320,6 +321,22 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       var id = MathJax.Hub.getJaxFor(math).inputID + '-Frame';
       var newmath = document.getElementById(id);
       Explorer.ActivateWalker(newmath);
+      console.log(math);
+      console.log(newmath);
+      
+    },
+
+    HammerHold: function(event){
+      console.log(event.type +" gesture detected.");
+      event.preventDefault();
+      event.srcEvent.stopPropagation();
+      console.log("Hammer Hold Called");
+      if (Explorer.walker && Explorer.walker.isActive()) {
+        Explorer.DeactivateWalker();
+      };
+      var math = event.target;
+      var id = MathJax.Hub.getJaxFor(math).inputID + '-Frame';
+      var newmath = document.getElementById(id);
       console.log(math);
       console.log(newmath);
       
