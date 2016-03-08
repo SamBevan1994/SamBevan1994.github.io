@@ -248,7 +248,8 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
     //
     AddHammerGestures: function(node) {
       console.log('Adding Hammer Horror');
-      var mc = new Hammer.Manager(node);
+      var body = document.body;
+      var mc = new Hammer.Manager(body);
       mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_ALL}));
       console.log('Still alive?');
       console.log('HammerListener: ' + mc);
