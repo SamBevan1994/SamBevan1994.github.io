@@ -5,6 +5,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
   var FALSE, KEY;
   var SETTINGS = MathJax.Hub.config.menuSettings;
   var swipesadded = false;
+  var mc = null;
 
   MathJax.Hub.Register.StartupHook('MathEvents Ready', function() {
     FALSE = MathJax.Extension.MathEvents.Event.False;
@@ -252,9 +253,9 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       console.log('Adding Hammer Horror');
       var body = document.body;
       console.log("swipes added?: " + swipesadded);
-      if (swipesadded == false) {
-        this.AddHammerSwipes(body);
-      };
+     
+      this.AddHammerSwipes(body);
+      
       var tap = new Hammer(node);
       tap.on("tap", this.HammerTap);
       tap.on("press", this.HammerHold);
@@ -267,32 +268,41 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       });
       tap.on("panleft", function(event) {
           if (Explorer.walker && Explorer.walker.isActive()) {
+            console.log("Explorer Active so not swiping");
             event.srcEvent.stopPropagation();
             event.preventDefault();
           };
       });
       tap.on("panright", function(event) {
           if (Explorer.walker && Explorer.walker.isActive()) {
+            console.log("Explorer Active so not swiping");
             event.srcEvent.stopPropagation();
             event.preventDefault();
           };
       });
       tap.on("panup", function(event) {
           if (Explorer.walker && Explorer.walker.isActive()) {
+            console.log("Explorer Active so not swiping");
             event.srcEvent.stopPropagation();
             event.preventDefault();
           };
       });
       tap.on("pandown", function(event) {
           if (Explorer.walker && Explorer.walker.isActive()) {
+            console.log("Explorer Active so not swiping");
             event.srcEvent.stopPropagation();
             event.preventDefault();
           };
       });
     },
     AddHammerSwipes: function(node){
+      if (swipesadded == true) {
+        console.log("destroying mc" + (mc == null))
+        mc.destroy();
+        console.log("Hammer Manager (mc) destroyed" + (mc == null));
+      };
       console.log("adding swipes");
-      var mc = new Hammer.Manager(node);
+      mc = new Hammer.Manager(node);
       mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_ALL}));
       mc.on("panstart", function(event){
         
@@ -305,7 +315,6 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
         };
       });
       mc.on("panend", function (event){
-        
         if (Explorer.walker && Explorer.walker.isActive()) {
           event.srcEvent.stopPropagation();
           event.preventDefault();
@@ -355,6 +364,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       console.log("Hammer Hold Called");
       if (Explorer.walker && Explorer.walker.isActive()) {
         Explorer.DeactivateWalker();
+        console.log(Explorer.walker.isActive());
       };
       var math = event.target;
       var id = MathJax.Hub.getJaxFor(math).inputID + '-Frame';
