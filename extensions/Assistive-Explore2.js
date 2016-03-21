@@ -302,7 +302,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       var swipezone = document.getElementById("enriched")
       console.log("swipes added?: " + swipesadded);
      
-      Explorer.AddHammerSwipes(swipezone);
+      Explorer.AddHammerSwipes(newmath);
       
     },
       AddHammerSwipes: function(node){

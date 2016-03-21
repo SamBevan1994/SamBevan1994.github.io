@@ -289,8 +289,8 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       event.srcEvent.stopPropagation();
       console.log("Hammer Tap Called");
       if (Explorer.walker && Explorer.walker.isActive()) {
-        //Explorer.DeactivateWalker();
-      };
+        Explorer.HammerSwipeDown(event);
+      } else {
       var math = event.target;
       var id = MathJax.Hub.getJaxFor(math).inputID + '-Frame';
       var newmath = document.getElementById(id);
@@ -302,7 +302,8 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       var swipezone = document.getElementById("enriched")
       console.log("swipes added?: " + swipesadded);
      
-      Explorer.AddHammerSwipes(swipezone);
+      Explorer.AddHammerSwipes(document.body);
+    }
       
     },
       AddHammerSwipes: function(node){
@@ -314,7 +315,7 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       };
       console.log("adding swipes");
       mc = new Hammer.Manager(node);
-      mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_ALL}));
+      mc.add(new Hammer.Pan({ direction: Hammer.DIRECTION_HORIZONTAL}));
 
       mc.on("panstart", function(event){
         console.log("Pan starting");
@@ -360,15 +361,25 @@ MathJax.Hub.Register.StartupHook('Sre Ready', function() {
       console.log(event.type +" gesture detected.");
       event.preventDefault();
       event.srcEvent.stopPropagation();
-      console.log("Hammer Hold Called");
       if (Explorer.walker && Explorer.walker.isActive()) {
-        Explorer.DeactivateWalker();
-      };
-      var math = event.target;
-      var id = MathJax.Hub.getJaxFor(math).inputID + '-Frame';
-      var newmath = document.getElementById(id);
-      console.log(math);
-      console.log(newmath);
+        console.log('up?');
+        var move = Explorer.walker.move(sre.EventUtil.KeyCode.UP);
+        if (move === null) return;
+        if (move) {
+          console.log('updating');
+          console.log(Explorer.walker.speech());          
+          Explorer.liveRegion.Update(Explorer.walker.speech());
+          Explorer.Highlight();
+        } else {
+          Explorer.PlayEarcon();
+          setTimeout(Explorer.DeactivateWalker(), 1000)
+        }
+        FALSE(event);
+        return;
+       } else {
+        console.log("Walker Not activated");
+       }
+      
       
     },
 
